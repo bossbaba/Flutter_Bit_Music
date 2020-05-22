@@ -18,8 +18,9 @@ class Home extends StatefulWidget {
 class HomeBuilder extends State<Home>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   final List sildeMenu = [
-    {"text": "我的消息", "icon": Icons.message, 'id': 0},
-    {"text": "退出", "icon": Icons.power_settings_new, 'id': 1}
+    {"text": "我的消息", "icon": Icons.arrow_forward_ios, 'id': 0},
+    {"text": "注销", "icon": Icons.arrow_forward_ios, 'id': 1},
+    {"text": "退出", "icon": Icons.power_settings_new, 'id': 2}
   ];
   List<Widget> _drawerList = [];
 
@@ -28,7 +29,7 @@ class HomeBuilder extends State<Home>
 
   AnimationController controller;
   Animation animation;
-  bool _isPlay = false;
+  bool _isPlay = true;
 
   // loading标志
   bool _isLoading = false;
@@ -253,7 +254,12 @@ class HomeBuilder extends State<Home>
       child: Column(
         children: List<Widget>.from(this.musicList.asMap().keys.map((index) {
           return InkWell(onTap: (){
-            print(musicList[index]);
+            // print(musicList[index]['id']);
+            Http().get('/song/url',query:{
+              'id':musicList[index]['id']
+            }).then((res){
+              print(res);
+            });
           },child: Container(
             margin: EdgeInsets.all(8.0),
             child: Row(
